@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beyond Degrees: Getting Started in Data Science</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=DM+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --pink:#ff4d6d;--yellow:#ffd60a;--navy:#1a1a2e;--mint:#06d6a0;
+  --purple:#7b2d8b;--blue:#4cc9f0;--orange:#ff9f1c;--white:#fff;
+  --bg:#fff5f0;--text:#1a1a2e;
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
+
+/* ─── NAV ─── */
+.nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2rem;background:var(--navy);position:sticky;top:0;z-index:100;border-bottom:3px solid var(--yellow)}
+.nav-brand{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.1rem;color:var(--white);letter-spacing:-0.02em}
+.nav-links{display:flex;gap:6px;flex-wrap:wrap}
+.nav-btn{background:transparent;border:1.5px solid rgba(255,255,255,0.25);color:rgba(255,255,255,0.75);font-size:11px;font-weight:600;padding:6px 14px;border-radius:20px;cursor:pointer;font-family:'DM Sans',sans-serif;letter-spacing:0.05em;transition:all 0.2s}
+.nav-btn:hover,.nav-btn.active{background:var(--yellow);border-color:var(--yellow);color:var(--navy)}
+
+/* ─── SECTIONS ─── */
+.section{display:none;min-height:100vh;padding:3rem 2rem;max-width:960px;margin:0 auto}
+.section.active{display:block}
+
+/* ─── HERO ─── */
+#sec-hero{display:none;padding:0;max-width:100%}
+#sec-hero.active{display:block}
+.hero-wrap{display:grid;grid-template-columns:1fr 1fr;min-height:calc(100vh - 67px)}
+.hero-left{background:var(--pink);padding:4rem 3rem;display:flex;flex-direction:column;justify-content:center;border-right:3px solid var(--navy)}
+.hero-eyebrow{display:inline-block;background:var(--navy);color:var(--yellow);font-size:11px;font-weight:700;padding:6px 16px;border-radius:4px;margin-bottom:2rem;letter-spacing:0.12em;text-transform:uppercase}
+.hero-title{font-family:'Bricolage Grotesque',sans-serif;font-size:clamp(3rem,6vw,5rem);font-weight:800;line-height:1.0;letter-spacing:-0.03em;color:var(--white);margin-bottom:1.2rem}
+.hero-hook{font-size:1.1rem;color:rgba(255,255,255,0.9);line-height:1.7;margin-bottom:2.5rem;font-style:italic}
+.hero-meta{display:flex;gap:12px;flex-wrap:wrap}
+.hmeta{background:rgba(255,255,255,0.18);border:1.5px solid rgba(255,255,255,0.35);border-radius:10px;padding:10px 18px;color:var(--white);font-size:13px;font-weight:600;text-align:center}
+.hmeta span{display:block;font-size:10px;font-weight:400;opacity:0.7;margin-top:2px}
+
+.hero-right{background:var(--navy);display:flex;flex-direction:column;justify-content:center;align-items:center;padding:3rem;gap:2rem}
+.speaker-blob{background:rgba(255,255,255,0.05);border:2px solid rgba(255,255,255,0.12);border-radius:20px;padding:2rem;text-align:center;width:100%}
+.avatar-big{width:100px;height:100px;border-radius:50%;background:var(--pink);display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque',sans-serif;font-size:2.2rem;font-weight:800;color:var(--white);margin:0 auto 1rem;border:3px solid var(--yellow)}
+.sp-name{font-family:'Bricolage Grotesque',sans-serif;font-size:1.4rem;font-weight:800;color:var(--white)}
+.sp-role{font-size:13px;color:var(--yellow);font-weight:600;margin:4px 0}
+.sp-company{font-size:12px;color:rgba(255,255,255,0.5)}
+.sp-quote{font-size:13px;color:rgba(255,255,255,0.75);font-style:italic;line-height:1.7;margin-top:1rem;border-top:1px solid rgba(255,255,255,0.1);padding-top:1rem}
+.start-btn{background:var(--yellow);color:var(--navy);border:none;font-family:'Bricolage Grotesque',sans-serif;font-size:1.1rem;font-weight:800;padding:1rem 2.5rem;border-radius:12px;cursor:pointer;width:100%;letter-spacing:-0.01em;transition:transform 0.15s}
+.start-btn:hover{transform:scale(1.02)}
+
+/* ─── MARQUEE ─── */
+.marquee-wrap{background:var(--yellow);border-top:2px solid var(--navy);border-bottom:2px solid var(--navy);padding:10px 0;overflow:hidden;white-space:nowrap}
+.marquee-inner{display:inline-flex;animation:marquee 20s linear infinite}
+.marquee-inner span{font-family:'Bricolage Grotesque',sans-serif;font-size:13px;font-weight:700;letter-spacing:0.06em;padding:0 2rem;text-transform:uppercase;color:var(--navy)}
+.marquee-inner span::after{content:'★';margin-left:2rem;color:var(--pink)}
+@keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* ─── SECTION HEADER ─── */
+.sec-header{margin-bottom:2.5rem}
+.sec-tag{display:inline-block;background:var(--pink);color:var(--white);font-size:11px;font-weight:700;padding:5px 14px;border-radius:20px;margin-bottom:1rem;letter-spacing:0.08em;text-transform:uppercase}
+.sec-title{font-family:'Bricolage Grotesque',sans-serif;font-size:2.4rem;font-weight:800;letter-spacing:-0.02em;line-height:1.1;margin-bottom:0.5rem}
+.sec-sub{font-size:15px;color:#555;line-height:1.6}
+
+/* ─── QUIZ ─── */
+.quiz-container{max-width:720px;margin:0 auto}
+.quiz-progress{display:flex;gap:6px;margin-bottom:2rem}
+.qprog-dot{flex:1;height:6px;border-radius:20px;background:#e0e0e0;transition:background 0.3s}
+.qprog-dot.done{background:var(--pink)}
+.qprog-dot.current{background:var(--yellow)}
+
+.quiz-card{background:var(--white);border:2px solid var(--navy);border-radius:20px;padding:2.5rem;margin-bottom:1.5rem}
+.quiz-num{font-size:11px;font-weight:700;color:var(--pink);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.75rem}
+.quiz-q{font-family:'Bricolage Grotesque',sans-serif;font-size:1.5rem;font-weight:800;letter-spacing:-0.01em;margin-bottom:2rem;line-height:1.3}
+.quiz-options{display:flex;flex-direction:column;gap:12px}
+.quiz-opt{background:var(--bg);border:2px solid #e0e0e0;border-radius:12px;padding:1rem 1.25rem;cursor:pointer;font-size:15px;font-weight:500;transition:all 0.2s;text-align:left;font-family:'DM Sans',sans-serif;display:flex;align-items:center;gap:12px}
+.quiz-opt:hover{border-color:var(--navy);background:var(--white)}
+.quiz-opt.selected{border-color:var(--pink);background:#fff0f3}
+.quiz-opt.correct{border-color:var(--mint);background:#e6fbf5}
+.quiz-opt.wrong{border-color:#e24b4a;background:#fcebeb}
+.opt-letter{width:32px;height:32px;border-radius:8px;background:var(--navy);color:var(--white);font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.quiz-opt.correct .opt-letter{background:var(--mint)}
+.quiz-opt.wrong .opt-letter{background:#e24b4a}
+
+.quiz-explain{background:var(--navy);color:var(--white);border-radius:12px;padding:1.25rem 1.5rem;margin-top:1.5rem;font-size:14px;line-height:1.7;display:none}
+.quiz-explain.show{display:block}
+.quiz-explain strong{color:var(--yellow)}
+
+.quiz-actions{display:flex;justify-content:space-between;align-items:center;margin-top:1.5rem;flex-wrap:wrap;gap:12px}
+.q-score{font-size:14px;color:#666;font-weight:500}
+.next-btn{background:var(--navy);color:var(--white);border:none;font-family:'Bricolage Grotesque',sans-serif;font-size:1rem;font-weight:700;padding:0.85rem 2rem;border-radius:10px;cursor:pointer;transition:transform 0.15s}
+.next-btn:hover{transform:scale(1.02)}
+.next-btn:disabled{opacity:0.4;cursor:not-allowed;transform:none}
+
+.quiz-result{text-align:center;padding:3rem 2rem;background:var(--white);border:2px solid var(--navy);border-radius:20px}
+.result-score{font-family:'Bricolage Grotesque',sans-serif;font-size:5rem;font-weight:800;color:var(--pink);line-height:1}
+.result-label{font-size:1.1rem;color:#555;margin:0.5rem 0 1.5rem}
+.result-msg{font-size:1rem;line-height:1.7;max-width:500px;margin:0 auto 2rem;color:var(--text)}
+.retry-btn{background:var(--pink);color:var(--white);border:none;font-family:'Bricolage Grotesque',sans-serif;font-size:1rem;font-weight:700;padding:0.85rem 2rem;border-radius:10px;cursor:pointer}
+
+/* ─── JOURNEY ─── */
+.journey-wrap{position:relative;padding-left:40px}
+.journey-line{position:absolute;left:16px;top:0;bottom:0;width:3px;background:linear-gradient(to bottom,var(--pink),var(--yellow),var(--mint))}
+.journey-item{position:relative;margin-bottom:2.5rem;padding-left:1.5rem}
+.journey-dot{position:absolute;left:-31px;top:8px;width:18px;height:18px;border-radius:50%;border:3px solid var(--white);box-shadow:0 0 0 2px var(--navy)}
+.journey-dot.d1{background:var(--pink)}
+.journey-dot.d2{background:var(--orange)}
+.journey-dot.d3{background:var(--yellow)}
+.journey-dot.d4{background:var(--mint)}
+.journey-dot.d5{background:var(--blue)}
+.journey-dot.d6{background:var(--purple)}
+.journey-card{background:var(--white);border:2px solid var(--navy);border-radius:16px;padding:1.5rem;transition:transform 0.2s}
+.journey-card:hover{transform:translateX(6px)}
+.j-year{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--pink);margin-bottom:4px}
+.j-title{font-family:'Bricolage Grotesque',sans-serif;font-size:1.1rem;font-weight:800;margin-bottom:6px}
+.j-company{font-size:13px;color:#666;margin-bottom:10px}
+.j-lesson{background:var(--bg);border-left:3px solid var(--yellow);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;line-height:1.6;color:var(--text)}
+.j-lesson strong{color:var(--navy);font-weight:700}
+.j-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.j-tag{font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;background:var(--navy);color:var(--white)}
+
+/* ─── TOOLS ─── */
+.tools-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-bottom:3rem}
+.tool-card{background:var(--white);border:2px solid var(--navy);border-radius:16px;padding:1.5rem;transition:transform 0.2s}
+.tool-card:hover{transform:translateY(-4px)}
+.tool-header{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.tool-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0}
+.tool-name{font-family:'Bricolage Grotesque',sans-serif;font-size:1rem;font-weight:800}
+.tool-category{font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase}
+.tool-desc{font-size:13px;color:#555;line-height:1.6;margin-bottom:12px}
+.tool-tip{background:var(--bg);border-radius:8px;padding:10px 12px;font-size:12px;line-height:1.6;color:var(--text)}
+.tool-tip strong{color:var(--pink)}
+.priority-badge{display:inline-block;font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;margin-bottom:8px}
+.p-must{background:#fff0f3;color:var(--pink);border:1px solid #ffb3c1}
+.p-good{background:#fff9db;color:#7a5900;border:1px solid var(--yellow)}
+.p-bonus{background:#e6fbf5;color:#0a5940;border:1px solid var(--mint)}
+
+.resources-section{background:var(--navy);border-radius:20px;padding:2rem;margin-top:1rem}
+.res-title{font-family:'Bricolage Grotesque',sans-serif;font-size:1.3rem;font-weight:800;color:var(--white);margin-bottom:1.5rem}
+.res-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.res-card{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:1rem}
+.res-card-title{font-weight:700;color:var(--yellow);font-size:14px;margin-bottom:4px}
+.res-card-desc{font-size:12px;color:rgba(255,255,255,0.65);line-height:1.5}
+
+/* ─── AGENDA ─── */
+.agenda-list{display:flex;flex-direction:column;gap:0}
+.agenda-item{display:grid;grid-template-columns:90px 1fr;border:2px solid var(--navy);margin-top:-2px;background:var(--white);cursor:pointer;transition:background 0.2s}
+.agenda-item:first-child{border-radius:16px 16px 0 0}
+.agenda-item:last-child{border-radius:0 0 16px 16px}
+.agenda-item:hover{background:#fffdf0}
+.agenda-item.current-item{background:#fff0f3;border-left:5px solid var(--pink)}
+.ag-time{background:var(--navy);display:flex;align-items:center;justify-content:center;padding:1.25rem 0.5rem}
+.ag-time span{font-family:'Bricolage Grotesque',sans-serif;font-size:0.85rem;font-weight:800;color:var(--yellow);text-align:center}
+.ag-body{padding:1.25rem 1.5rem;display:flex;align-items:flex-start;gap:14px}
+.ag-num{font-family:'Bricolage Grotesque',sans-serif;font-size:2.5rem;font-weight:800;color:rgba(26,26,46,0.07);line-height:1;min-width:44px}
+.ag-content{}
+.ag-title{font-family:'Bricolage Grotesque',sans-serif;font-size:1rem;font-weight:800;margin-bottom:4px}
+.ag-desc{font-size:13px;color:#555;line-height:1.5;margin-bottom:8px}
+.ag-chips{display:flex;gap:6px;flex-wrap:wrap}
+.ag-chip{font-size:10px;font-weight:600;padding:3px 10px;border-radius:20px}
+.ag-chip.r{background:#fff0f3;color:var(--pink);border:1px solid #ffb3c1}
+.ag-chip.y{background:#fff9db;color:#7a5900;border:1px solid var(--yellow)}
+.ag-chip.g{background:#e6fbf5;color:#0a5940;border:1px solid var(--mint)}
+.ag-chip.b{background:#e8f7fc;color:#0a6e8a;border:1px solid var(--blue)}
+.ag-chip.p{background:#f3eafc;color:#4a1070;border:1px solid #b87dd4}
+
+/* ─── POLL ─── */
+.poll-container{max-width:700px;margin:0 auto}
+.poll-card{background:var(--white);border:2px solid var(--navy);border-radius:20px;padding:2.5rem;margin-bottom:2rem}
+.poll-q{font-family:'Bricolage Grotesque',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:1.5rem;letter-spacing:-0.01em;line-height:1.3}
+.poll-options{display:flex;flex-direction:column;gap:10px}
+.poll-opt{border:2px solid #e0e0e0;border-radius:12px;padding:1rem 1.25rem;cursor:pointer;font-size:15px;font-weight:500;transition:all 0.2s;background:var(--bg);display:flex;align-items:center;justify-content:space-between;font-family:'DM Sans',sans-serif}
+.poll-opt:hover{border-color:var(--navy)}
+.poll-opt.voted{border-color:var(--pink);background:#fff0f3;cursor:default}
+.poll-bar-wrap{margin-top:1rem;display:none}
+.poll-bar-wrap.show{display:block}
+.poll-bar-row{display:flex;align-items:center;gap:12px;margin-bottom:10px;font-size:13px}
+.poll-bar-label{min-width:180px;font-weight:500}
+.poll-bar-track{flex:1;height:24px;background:#f0f0f0;border-radius:20px;overflow:hidden}
+.poll-bar-fill{height:100%;border-radius:20px;background:var(--pink);transition:width 0.8s cubic-bezier(.4,0,.2,1);display:flex;align-items:center;padding-left:10px}
+.poll-bar-pct{font-size:12px;font-weight:700;color:var(--white)}
+.poll-reset{background:transparent;border:1.5px solid #ccc;color:#666;font-size:12px;padding:6px 16px;border-radius:8px;cursor:pointer;margin-top:1rem;font-family:'DM Sans',sans-serif}
+
+/* ─── TAKEAWAYS ─── */
+.takeaway-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-bottom:2.5rem}
+.tk-card{border-radius:16px;padding:1.5rem;border:2px solid var(--navy)}
+.tk-num{font-family:'Bricolage Grotesque',sans-serif;font-size:3rem;font-weight:800;line-height:1;margin-bottom:0.5rem;opacity:0.25}
+.tk-title{font-family:'Bricolage Grotesque',sans-serif;font-size:1rem;font-weight:800;margin-bottom:6px}
+.tk-desc{font-size:13px;line-height:1.6}
+.share-card{background:var(--navy);border-radius:20px;padding:2.5rem;text-align:center;color:var(--white)}
+.share-title{font-family:'Bricolage Grotesque',sans-serif;font-size:1.8rem;font-weight:800;margin-bottom:0.5rem;color:var(--yellow)}
+.share-sub{font-size:14px;color:rgba(255,255,255,0.7);margin-bottom:2rem;line-height:1.6}
+.share-links{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.share-link{background:rgba(255,255,255,0.1);border:1.5px solid rgba(255,255,255,0.2);color:var(--white);font-size:13px;font-weight:600;padding:10px 20px;border-radius:10px;text-decoration:none;transition:background 0.2s}
+.share-link:hover{background:rgba(255,255,255,0.2)}
+
+@media(max-width:640px){
+  .hero-wrap{grid-template-columns:1fr}
+  .hero-left{padding:2.5rem 1.5rem}
+  .section{padding:2rem 1.25rem}
+  .sec-title{font-size:1.8rem}
+  .nav-links{gap:4px}
+  .nav-btn{font-size:10px;padding:5px 10px}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-brand">Beyond Degrees</div>
+  <div class="nav-links">
+    <button class="nav-btn active" onclick="showSection('hero')">Home</button>
+    <button class="nav-btn" onclick="showSection('agenda')">Agenda</button>
+    <button class="nav-btn" onclick="showSection('journey')">My Journey</button>
+    <button class="nav-btn" onclick="showSection('tools')">Tools</button>
+    <button class="nav-btn" onclick="showSection('takeaways')">Takeaways</button>
+  </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section id="sec-hero" class="section active">
+  <div class="hero-wrap">
+    <div class="hero-left">
+      <div class="hero-eyebrow">Alumni Connect · 2025</div>
+      <h1 class="hero-title">Beyond Degrees<br><span style="font-size:0.55em;font-weight:600;">Breaking Into Data Science</span></h1>
+      <p class="hero-hook">"Your degree won't get you the job alone. But knowing the right moves will."</p>
+      
+<div class="hero-meta">
+        <div class="hmeta">Industry Reality<span>What companies expect</span></div>
+        <div class="hmeta">Career Roadmap<span>Breaking into data science</span></div>
+        <div class="hmeta">Skills That Matter<span>Python · SQL · AI</span></div>
+      </div>
+    </div>
+
+    </div>
+    <div class="hero-right">
+      <div class="speaker-blob">
+        <div class="avatar-big">SJ</div>
+        <div class="sp-name">Sahaya Jefrin M</div>
+        <div class="sp-role">Associate Consultant · IQVIA</div>
+        <div class="sp-company">Ex-WOW Skin Science · MSc Stats, Christ University '23</div>
+        <p class="sp-quote">"I was exactly where you are two years ago — MSc Stats, unsure what comes next. Here's what I actually learned."</p>
+      </div>
+      <button class="start-btn" onclick="showSection('agenda')">Let's Begin → </button>
+    </div>
+  </div>
+  <div class="marquee-wrap">
+    <div class="marquee-inner">
+      <span>Python & SQL</span><span>Gen AI Skills</span><span>Internship Tips</span><span>Industry Reality</span><span>Portfolio Building</span><span>Career Paths</span><span>Networking</span><span>Career Growth</span>
+      <span>Python & SQL</span><span>Gen AI Skills</span><span>Internship Tips</span><span>Industry Reality</span><span>Portfolio Building</span><span>Career Paths</span><span>Networking</span><span>Career Growth</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ AGENDA ═══ -->
+<section id="sec-agenda" class="section">
+  <div class="sec-header">
+    <div class="sec-tag">Session plan</div>
+    <h2 class="sec-title">What we're covering today</h2>
+    <p class="sec-sub">Click any section to mark it as current — helps you stay on track during the session.</p>
+  </div>
+  <div class="agenda-list">
+    <div class="agenda-item" onclick="markAgenda(this)">
+      <div class="ag-time"><span>00:00</span></div>
+      <div class="ag-body"><div class="ag-num">01</div><div class="ag-content">
+        <div class="ag-title">Welcome & setting the stage</div>
+        <div class="ag-desc">Who I am, where I started, and why this conversation matters in second year — not final year.</div>
+        <div class="ag-chips"><span class="ag-chip r">10 mins</span><span class="ag-chip y">Icebreaker poll</span></div>
+      </div></div>
+    </div>
+    <div class="agenda-item" onclick="markAgenda(this)">
+      <div class="ag-time"><span>00:10</span></div>
+      <div class="ag-body"><div class="ag-num">02</div><div class="ag-content">
+        <div class="ag-title">The job market — what's actually happening</div>
+        <div class="ag-desc">Where stats grads get hired, how AI reshuffled roles, and where the growth is. No sugarcoating.</div>
+        <div class="ag-chips"><span class="ag-chip r">20 mins</span><span class="ag-chip b">Tech</span><span class="ag-chip b">Pharma</span><span class="ag-chip b">Finance</span><span class="ag-chip b">Consulting</span></div>
+      </div></div>
+    </div>
+    <div class="agenda-item" onclick="markAgenda(this)">
+      <div class="ag-time"><span>00:30</span></div>
+      <div class="ag-body"><div class="ag-num">03</div><div class="ag-content">
+        <div class="ag-title">The skills gap — classroom vs. workplace</div>
+        <div class="ag-desc">Technical must-haves, soft skills that differentiate, and what most students don't realise they're missing.</div>
+        <div class="ag-chips"><span class="ag-chip r">20 mins</span><span class="ag-chip y">Python</span><span class="ag-chip y">SQL</span><span class="ag-chip y">Git</span><span class="ag-chip y">Storytelling</span></div>
+      </div></div>
+    </div>
+    <div class="agenda-item" onclick="markAgenda(this)">
+      <div class="ag-time"><span>00:50</span></div>
+      <div class="ag-body"><div class="ag-num">04</div><div class="ag-content">
+        <div class="ag-title">What to do — starting right now</div>
+        <div class="ag-desc">Portfolios, internships, certifications worth your time, competitions, and how to network before you need to.</div>
+        <div class="ag-chips"><span class="ag-chip r">25 mins</span><span class="ag-chip g">Action plan</span><span class="ag-chip y">Kaggle</span><span class="ag-chip y">LinkedIn</span></div>
+      </div></div>
+    </div>
+    <div class="agenda-item" onclick="markAgenda(this)">
+      <div class="ag-time"><span>01:15</span></div>
+      <div class="ag-body"><div class="ag-num">05</div><div class="ag-content">
+        <div class="ag-title">Real talk — mistakes & lessons</div>
+        <div class="ag-desc">Honest stories, common traps peers fall into, and the mindset shift from student to professional.</div>
+        <div class="ag-chips"><span class="ag-chip r">15 mins</span><span class="ag-chip p">Unfiltered</span></div>
+      </div></div>
+    </div>
+    <div class="agenda-item" onclick="markAgenda(this)">
+      <div class="ag-time"><span>01:30</span></div>
+      <div class="ag-body"><div class="ag-num">06</div><div class="ag-content">
+        <div class="ag-title">Open Q&A — anything goes</div>
+        <div class="ag-desc">Salaries, job search, postgrad vs. jobs, specific tools — no question is off limits.</div>
+        <div class="ag-chips"><span class="ag-chip g">20–30 mins</span><span class="ag-chip p">Live questions</span></div>
+      </div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ JOURNEY ═══ -->
+<section id="sec-journey" class="section">
+  <div class="sec-header">
+    <div class="sec-tag">My Story</div>
+    <h2 class="sec-title">From Christ University to consulting</h2>
+    <p class="sec-sub">Every step had a lesson. Here's the unfiltered version.</p>
+  </div>
+  <div class="journey-wrap">
+    <div class="journey-line"></div>
+    <div class="journey-item">
+      <div class="journey-dot d1"></div>
+      <div class="journey-card">
+        <div class="j-year">2018 – 2021</div>
+        <div class="j-title">BSc Statistics — National College, Trichy</div>
+        <div class="j-company">Where it all began</div>
+        <div class="j-lesson"><strong>Lesson:</strong> Statistics felt theoretical. I had no idea what a "data analyst" actually did daily. Most of us don't — and that's the gap we need to close early.</div>
+        <div class="j-tags"><span class="j-tag">Statistics fundamentals</span><span class="j-tag">Probability</span><span class="j-tag">R basics</span></div>
+      </div>
+    </div>
+    <div class="journey-item">
+      <div class="journey-dot d2"></div>
+      <div class="journey-card">
+        <div class="j-year">2021 – 2023</div>
+        <div class="j-title">MSc Statistics — Christ University, Bangalore</div>
+        <div class="j-company">Your college. Your classrooms. Your corridors.</div>
+        <div class="j-lesson"><strong>Lesson:</strong> This is where I started seriously learning Python and SQL on the side. The degree gave me the statistical foundation — but what got me hired was the extra work I put in outside class.</div>
+        <div class="j-tags"><span class="j-tag">Python</span><span class="j-tag">SQL</span><span class="j-tag">Machine Learning</span><span class="j-tag">Royal Statistical Society</span></div>
+      </div>
+    </div>
+    <div class="journey-item">
+      <div class="journey-dot d3"></div>
+      <div class="journey-card">
+        <div class="j-year">Nov 2022 – Dec 2022</div>
+        <div class="j-title">Data Science Intern — The Sparks Foundation</div>
+        <div class="j-company">First real-world experience</div>
+        <div class="j-lesson"><strong>Lesson:</strong> My first internship felt small but it cracked open the door. Even a 2-month stint on your resume signals to recruiters: "this person doesn't wait — they act." Start early, even if it feels small.</div>
+        <div class="j-tags"><span class="j-tag">First internship</span><span class="j-tag">Real data</span><span class="j-tag">Portfolio starter</span></div>
+      </div>
+    </div>
+    <div class="journey-item">
+      <div class="journey-dot d4"></div>
+      <div class="journey-card">
+        <div class="j-year">Feb 2023 – Jul 2023</div>
+        <div class="j-title">Data Analyst Intern → Data Analyst — WOW Skin Science</div>
+        <div class="j-company">FMCG · E-commerce analytics</div>
+        <div class="j-lesson"><strong>Lesson:</strong> I learned SQL properly here — not textbook SQL, but messy, real-world SQL. I also discovered that communicating findings to non-technical teams is half the job. "Correct but unclear" doesn't cut it in the real world.</div>
+        <div class="j-tags"><span class="j-tag">SQL</span><span class="j-tag">Looker Studio</span><span class="j-tag">Inventory analytics</span><span class="j-tag">Google Sheets</span></div>
+      </div>
+    </div>
+    <div class="journey-item">
+      <div class="journey-dot d5"></div>
+      <div class="journey-card">
+        <div class="j-year">May 2024 – Feb 2025</div>
+        <div class="j-title">Senior Executive — Data Analytics, WOW Skin Science</div>
+        <div class="j-company">Promoted within the same company</div>
+        <div class="j-lesson"><strong>Lesson:</strong> Promotions come from impact, not just skill. I started framing my work in terms of business outcomes — not just dashboards. "This report helped reduce overstock by 18%" beats "I built a dashboard."</div>
+        <div class="j-tags"><span class="j-tag">Business storytelling</span><span class="j-tag">Demand forecasting</span><span class="j-tag">Gen AI experiments</span></div>
+      </div>
+    </div>
+    <div class="journey-item">
+      <div class="journey-dot d6"></div>
+      <div class="journey-card">
+        <div class="j-year">Feb 2025 – Present</div>
+        <div class="j-title">Associate Consultant — IQVIA</div>
+        <div class="j-company">Pharma analytics & life sciences consulting</div>
+        <div class="j-lesson"><strong>Lesson:</strong> Consulting is a different game — multiple clients, fast pivots, high expectations. What got me here was a combination of domain knowledge, Python + SQL fluency, and knowing how to present data as a story. All learnable. All startable now.</div>
+        <div class="j-tags"><span class="j-tag">Pharma analytics</span><span class="j-tag">LLMs</span><span class="j-tag">Consulting mindset</span><span class="j-tag">Python</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TOOLS ═══ -->
+<section id="sec-tools" class="section">
+  <div class="sec-header">
+    <div class="sec-tag">Your toolkit</div>
+    <h2 class="sec-title">Tools & resources to start now</h2>
+    <p class="sec-sub">Prioritised — focus on MUST LEARN first. No need to learn everything at once.</p>
+  </div>
+  <div class="tools-grid">
+    <div class="tool-card">
+      <div class="priority-badge p-must">Must Learn</div>
+      <div class="tool-header">
+        <div class="tool-icon" style="background:#fff0f3;font-size:1.5rem">🐍</div>
+        <div><div class="tool-name">Python</div><div class="tool-category" style="color:var(--pink)">Core skill</div></div>
+      </div>
+      <div class="tool-desc">The #1 language for data roles. Pandas, NumPy, Matplotlib, Seaborn — start here.</div>
+      <div class="tool-tip"><strong>Where to start:</strong> Kaggle's free Python course → then practice on real datasets immediately. Don't just watch tutorials.</div>
+    </div>
+    <div class="tool-card">
+      <div class="priority-badge p-must">Must Learn</div>
+      <div class="tool-header">
+        <div class="tool-icon" style="background:#e8f7fc;font-size:1.5rem">🗄️</div>
+        <div><div class="tool-name">SQL</div><div class="tool-category" style="color:var(--blue)">Core skill</div></div>
+      </div>
+      <div class="tool-desc">Every data job needs SQL. It's how you talk to databases — interviews almost always test this.</div>
+      <div class="tool-tip"><strong>Where to start:</strong> SQLZoo → Mode Analytics SQL tutorial → HackerRank SQL challenges. Aim for 5-star rating like me!</div>
+    </div>
+    <div class="tool-card">
+      <div class="priority-badge p-must">Must Learn</div>
+      <div class="tool-header">
+        <div class="tool-icon" style="background:#fff9db;font-size:1.5rem">📊</div>
+        <div><div class="tool-name">Data Visualisation</div><div class="tool-category" style="color:#7a5900)">Core skill</div></div>
+      </div>
+      <div class="tool-desc">Telling stories with data. Tableau, Power BI, Looker Studio, or just Matplotlib/Seaborn.</div>
+      <div class="tool-tip"><strong>Where to start:</strong> Looker Studio is free + Google-backed. Build one dashboard from a public dataset and share it on LinkedIn.</div>
+    </div>
+    <div class="tool-card">
+      <div class="priority-badge p-good">Good to Have</div>
+      <div class="tool-header">
+        <div class="tool-icon" style="background:#e6fbf5;font-size:1.5rem">🤖</div>
+        <div><div class="tool-name">Gen AI / LLMs</div><div class="tool-category" style="color:var(--mint)">Emerging</div></div>
+      </div>
+      <div class="tool-desc">The job market now expects you to know how to use AI tools — not just build models.</div>
+      <div class="tool-tip"><strong>Where to start:</strong> Google's "Introduction to Generative AI" (free) → prompt engineering basics → try building a small LLM-powered tool.</div>
+    </div>
+    <div class="tool-card">
+      <div class="priority-badge p-good">Good to Have</div>
+      <div class="tool-header">
+        <div class="tool-icon" style="background:#f3eafc;font-size:1.5rem">🔁</div>
+        <div><div class="tool-name">Git & GitHub</div><div class="tool-category" style="color:var(--purple)">Essential tool</div></div>
+      </div>
+      <div class="tool-desc">Version control isn't optional anymore. Your GitHub is your live portfolio — every project goes here.</div>
+      <div class="tool-tip"><strong>Where to start:</strong> GitHub's own beginner guide → commit your first Python script today. Recruiters check GitHub profiles.</div>
+    </div>
+    <div class="tool-card">
+      <div class="priority-badge p-bonus">Bonus Edge</div>
+      <div class="tool-header">
+        <div class="tool-icon" style="background:#fff5f0;font-size:1.5rem">🏆</div>
+        <div><div class="tool-name">Kaggle Competitions</div><div class="tool-category" style="color:var(--orange)">Portfolio builder</div></div>
+      </div>
+      <div class="tool-desc">Real datasets, real problems, real community. Even participating (not winning) signals drive to recruiters.</div>
+      <div class="tool-tip"><strong>Where to start:</strong> Titanic survival prediction is the classic beginner comp. Join one this month — no pressure to win.</div>
+    </div>
+  </div>
+  <div class="resources-section">
+    <div class="res-title">Free resources I actually used</div>
+    <div class="res-grid">
+      <div class="res-card">
+        <div class="res-card-title">Kaggle Learn</div>
+        <div class="res-card-desc">Free mini-courses on Python, SQL, ML, Data Viz. Bite-sized and practical. Best starting point.</div>
+      </div>
+      <div class="res-card">
+        <div class="res-card-title">Google Data Analytics Certificate</div>
+        <div class="res-card-desc">Coursera. Paid but often free with financial aid. Looks good on LinkedIn. Worth it in Year 2.</div>
+      </div>
+      <div class="res-card">
+        <div class="res-card-title">Towards Data Science (Medium)</div>
+        <div class="res-card-desc">Best articles written by practitioners. Read 2–3 articles a week to stay current with the industry.</div>
+      </div>
+      <div class="res-card">
+        <div class="res-card-title">LinkedIn + Naukri</div>
+        <div class="res-card-desc">Set up your profile now. Follow data leaders. Apply for internships even if you feel "not ready."</div>
+      </div>
+      <div class="res-card">
+        <div class="res-card-title">HackerRank SQL Track</div>
+        <div class="res-card-desc">Where I got my 5-star rating. Recruiters recognise it. Takes 2–3 weeks of consistent practice.</div>
+      </div>
+      <div class="res-card">
+        <div class="res-card-title">StatQuest (YouTube)</div>
+        <div class="res-card-desc">Josh Starmer explains ML and statistics visually. If you're confused by any concept — check here first.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TAKEAWAYS ═══ -->
+<section id="sec-takeaways" class="section">
+  <div class="sec-header">
+    <div class="sec-tag">Before you leave</div>
+    <h2 class="sec-title">Your 3-this-week action plan</h2>
+    <p class="sec-sub">Don't leave today motivated but undirected. Pick these three and do them this week.</p>
+  </div>
+  <div class="takeaway-grid">
+    <div class="tk-card" style="background:#fff0f3;border-color:var(--pink)">
+      <div class="tk-num" style="color:var(--pink)">01</div>
+      <div class="tk-title">Set up your GitHub today</div>
+      <div class="tk-desc">Create an account, make a repo called "data-portfolio", push even one Python file. Your future self will thank you.</div>
+    </div>
+    <div class="tk-card" style="background:#fff9db;border-color:#c9a800">
+      <div class="tk-num" style="color:#c9a800">02</div>
+      <div class="tk-title">Start Kaggle's Python course</div>
+      <div class="tk-desc">Free, takes 5 hours total. Do the first two modules this week. Consistency over intensity — 30 mins daily beats 5 hours on Sunday.</div>
+    </div>
+    <div class="tk-card" style="background:#e6fbf5;border-color:var(--mint)">
+      <div class="tk-num" style="color:var(--mint)">03</div>
+      <div class="tk-title">Update your LinkedIn profile</div>
+      <div class="tk-desc">Add your education, add "Statistics" and "Python" as skills, connect with 10 people in data roles. Message one of them with a genuine question.</div>
+    </div>
+    <div class="tk-card" style="background:#e8f7fc;border-color:var(--blue)">
+      <div class="tk-num" style="color:var(--blue)">04</div>
+      <div class="tk-title">Apply for one internship</div>
+      <div class="tk-desc">Even if you feel unready. Rejection teaches you what to improve. Naukri, LinkedIn, Internshala — search "data analyst intern" right now.</div>
+    </div>
+    <div class="tk-card" style="background:#f3eafc;border-color:var(--purple)">
+      <div class="tk-num" style="color:var(--purple)">05</div>
+      <div class="tk-title">Join one data community</div>
+      <div class="tk-desc">Kaggle forums, LinkedIn stats groups, DataTalks.Club Discord. Learning with others is 10x more effective than learning alone.</div>
+    </div>
+    <div class="tk-card" style="background:#fff5f0;border-color:var(--orange)">
+      <div class="tk-num" style="color:var(--orange)">06</div>
+      <div class="tk-title">Find a project idea this week</div>
+      <div class="tk-desc">Pick anything you're curious about — cricket stats, food delivery data, weather patterns. A project you care about is a project you'll finish.</div>
+    </div>
+  </div>
+  <div class="share-card">
+    <div class="share-title">Connect with me after today</div>
+    <div class="share-sub">Questions after the session? Want feedback on your resume or portfolio? Reach out — I was in your seat two years ago and I'm happy to help.</div>
+    <div class="share-links">
+      <a class="share-link" href="https://www.linkedin.com/in/sahayajefrin">LinkedIn · sahayajefrin</a>
+      <a class="share-link" href="mailto:sahayajefrin18@gmail.com">sahayajefrin18@gmail.com</a>
+      <a class="share-link" href="tel:+919791658687">+91 97916 58687</a>
+    </div>
+  </div>
+</section>
+
+<script>
+// ─── NAV ───
+function showSection(id){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('sec-'+id).classList.add('active');
+  const btns=document.querySelectorAll('.nav-btn');
+  btns.forEach(b=>{if(b.getAttribute('onclick').includes("'"+id+"'"))b.classList.add('active')});
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ─── AGENDA ───
+function markAgenda(el){
+  document.querySelectorAll('.agenda-item').forEach(i=>i.classList.remove('current-item'));
+  el.classList.add('current-item');
+}
+
+// ─── INIT ───
+
+
+</script>
+</body>
+</html>
